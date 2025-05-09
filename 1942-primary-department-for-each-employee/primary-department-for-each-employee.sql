@@ -1,0 +1,2 @@
+/* Write your PL/SQL query statement below */
+select e1.employee_id as employee_id,e1.department_id as department_id from Employee e1 where e1.primary_flag='Y' or not exists (select e2.department_id from Employee e2 where e1.employee_id=e2.employee_id and e1.department_id<>e2.department_id);

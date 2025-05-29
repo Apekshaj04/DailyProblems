@@ -1,39 +1,36 @@
 class NumArray {
+    int[] bit;
     int[] nums;
-    int[] seg;
-    int n;
+    int n ;
     public NumArray(int[] nums) {
         this.n = nums.length;
-        this.nums = nums;
-        this.seg = new int[4*n];
-        build(0,0,n-1);
+        this.nums =  new int[n];
+        this.bit = new int[n+1];
+        for(int i =0 ;i<n;i++){
+            update(i,nums[i]);
+        }
     }
-    public void build(int index,int left,int right){
-        if(left==right){
-            this.seg[index] = this.nums[left];
-            return ; 
+    public void update(int i ,int val){
+        int diff = val - nums[i];
+        nums[i] = val;
+        i++;
+        while(i<=n){
+            bit[i]+=diff;
+            i+=i&-i;
         }
-        int mid = left + (right-left)/2;
-        build(2*index+1,left,mid);
-        build(2*index+2,mid+1,right);
-        this.seg[index] = this.seg[2*index+1] + seg[2*index+2];
     }
-    public int query(int index,int low,int high,int l,int r){
-        if(low>= l && r>=high){
-            return this.seg[index];
+    public int getSum(int i){
+        int sum = 0;
+        i++;
+        while(i>0){
+            sum+=bit[i]; 
+            i -= i &(-i);
         }
-        if(high<l || low>r){
-            return 0;
-        }
-        int mid = low+(high-low)/2;
-        int left = query(2*index+1,low,mid,l,r);
-        int right = query(2*index+2,mid+1,high,l,r);
-        return left+right;
-        
+        return sum;
     }
     
     public int sumRange(int left, int right) {
-        return query(0,0,n-1,left,right);
+        return getSum(right)-getSum(left-1);
     }
 }
 

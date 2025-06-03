@@ -1,34 +1,23 @@
 class Solution {
     public String maximumTime(String time) {
-        char h1 = time.charAt(0);
-        char h2 = time.charAt(1);
-        char m1 = time.charAt(3);
-        char m2 = time.charAt(4);
+        char[] t = time.toCharArray();  // Convert to char array for in-place editing
 
-        if (h1 == '?') {
-            if (h2 == '?' || h2 <= '3') {
-                h1 = '2';
-            } else {
-                h1 = '1';
-            }
+        if (t[0] == '?') {
+            t[0] = (t[1] == '?' || t[1] <= '3') ? '2' : '1';
         }
 
-        if (h2 == '?') {
-            if (h1 == '2') {
-                h2 = '3';
-            } else {
-                h2 = '9';
-            }
+        if (t[1] == '?') {
+            t[1] = (t[0] == '2') ? '3' : '9';
         }
 
-        if (m1 == '?') {
-            m1 = '5';
+        if (t[3] == '?') {
+            t[3] = '5';
         }
 
-        if (m2 == '?') {
-            m2 = '9';
+        if (t[4] == '?') {
+            t[4] = '9';
         }
 
-        return "" + h1 + h2 + ":" + m1 + m2;
+        return new String(t);  // Convert back to string
     }
 }
